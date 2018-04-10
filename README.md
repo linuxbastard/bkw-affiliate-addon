@@ -1,6 +1,6 @@
 # Affiliate Add-on for The Goodboy
 
-Create coupons for each new registered user and automatically apply coupon codes for referrals from that user.
+Create coupons for each new registered user and automatically apply coupon codes for referral links from that user.
 
 __Contributors:__ [Ronaldo Bartolome](https://github.com/linuxbastard)  
 __Requires:__ 4.7  
