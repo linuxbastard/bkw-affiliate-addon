@@ -3,7 +3,7 @@
 Create coupons for each new registered user and automatically apply coupon codes for referrals from that user.
 
 __Contributors:__ [Ronaldo Bartolome](https://github.com/linuxbastard)  
-__Requires:__ 4.9  
+__Requires:__ 4.7  
 __Tested up to:__ 4.9.5  
 __License:__ [GPL-2.0+](https://www.gnu.org/licenses/gpl-2.0.html)  
 
