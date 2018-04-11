@@ -111,3 +111,74 @@ function affgb_affiliate_coupon_links() {
 add_action( 'wp_loaded', 'affgb_affiliate_coupon_links', 30 );
 add_action( 'woocommerce_add_to_cart', 'affgb_affiliate_coupon_links', 30 );
 
+/**
+ * Clean up URL to remove query string and keep URL pretty.
+ *
+ * @since 1.0.0
+ */
+function affgb_coupon_links_clean_url() {
+	$query_var = get_option('uap_referral_variable');
+
+	if ( ! isset( $_GET[ $query_var ] ) ) {
+		return;
+	}
+	?>
+	<script>
+        (function() {
+            var queryVar = '<?php echo esc_js( $query_var ); ?>',
+                queryParams = window.location.search.substr( 1 ).split( '&' ),
+                url = window.location.href.split( '?' ).shift();
+
+            for ( var i = queryParams.length; i-- > 0; ) {
+                if ( 0 === queryParams[ i ].indexOf( queryVar + '=' ) ) {
+                    queryParams.splice( i, 1 );
+                }
+            }
+
+            if ( queryParams.length > 0 ) {
+                url += '?' + queryParams.join( '&' );
+            }
+
+            url += window.location.hash;
+
+            if ( window.history.replaceState ) {
+                window.history.replaceState( null, null, url );
+            }
+        })();
+	</script>
+	<?php
+}
+add_action( 'wp_head', 'affgb_coupon_links_clean_url' );
+
+/**
+ * Remove the coupon code query string parameter from the WooCommerce AJAX
+ * endpoint.
+ *
+ * WooCommerce includes a custom AJAX endpoint, which is basically just the
+ * current URL with a 'wc-ajax' query parameter appended. In some cases the
+ * value of that parameter includes an '%%endpoint%%' token, which gets replaced
+ * in JavaScript with the AJAX handler.
+ *
+ * When filtering the endpoint to remove query arguments, the call to
+ * remove_query_arg() ends up URL encoding argument values, which changes
+ * the '%%endpoint%% token, causing AJAX requests to fail.
+ *
+ * This replaces the '%%endpoint%%' token with a temporary token that won't
+ * be URL encoded, then swaps the tokens after calling remove_query_arg().
+ *
+ * @see WC_AJAX::get_endpoint()
+ *
+ * @since 1.0.0
+ *
+ * @param  string $endpoint AJAX endpoint URL.
+ * @return string
+ */
+function affgb_clean_ajax_endpoint( $endpoint ) {
+	$query_var = get_option('uap_referral_variable');
+	$token = 'affgb-affiliate-links-url-safe-token';
+	$endpoint = str_replace( '%%endpoint%%', $token, $endpoint );
+	$endpoint = remove_query_arg( $query_var, $endpoint );
+	return str_replace( $token, '%%endpoint%%', $endpoint );
+}
+add_filter( 'woocommerce_ajax_get_endpoint', 'affgb_clean_ajax_endpoint' );
+
