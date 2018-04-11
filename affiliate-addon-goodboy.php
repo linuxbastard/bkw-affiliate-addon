@@ -68,3 +68,46 @@ function affgb_generate_coupon($user_id) {
 	}
 }
 add_action( 'user_register', 'affgb_generate_coupon', 10, 1 );
+
+/**
+ * Automatically apply a coupon passed via URL to the cart.
+ *
+ * @since 1.0.0
+ */
+function affgb_affiliate_coupon_links() {
+	// Bail if WooCommerce or sessions aren't available.
+	if ( ! function_exists( 'WC' ) || ! WC()->session ) {
+		return;
+	}
+
+	// Don't attempt to apply coupon in AJAX requests.
+	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		return;
+	}
+
+	/**
+	 * Filter the coupon code query variable name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $query_var Query variable name.
+	 */
+	$query_var = get_option('uap_referral_variable');
+
+	// Quit if a coupon code isn't in the query string.
+	if ( empty( $_GET[ $query_var ] ) ) {
+		return;
+	}
+
+	// Set a session cookie to persist the coupon in case the cart is empty.
+	WC()->session->set_customer_session_cookie( true );
+
+	// Apply the coupon to the cart if necessary.
+	if ( ! WC()->cart->has_discount( $_GET[ $query_var ] ) ) {
+		// WC_Cart::add_discount() sanitizes the coupon code.
+		WC()->cart->add_discount( $_GET[ $query_var ] );
+	}
+}
+add_action( 'wp_loaded', 'affgb_affiliate_coupon_links', 30 );
+add_action( 'woocommerce_add_to_cart', 'affgb_affiliate_coupon_links', 30 );
+
