@@ -116,7 +116,7 @@ add_action( 'woocommerce_add_to_cart', 'affgb_affiliate_coupon_links', 30 );
  *
  * @since 1.0.0
  */
-/*function affgb_coupon_links_clean_url() {
+function affgb_coupon_links_clean_url() {
 	$query_var = get_option('uap_referral_variable');
 
 	if ( ! isset( $_GET[ $query_var ] ) ) {
@@ -148,7 +148,7 @@ add_action( 'woocommerce_add_to_cart', 'affgb_affiliate_coupon_links', 30 );
 	</script>
 	<?php
 }
-add_action( 'wp_head', 'affgb_coupon_links_clean_url' ); */
+add_action( 'wp_head', 'affgb_coupon_links_clean_url' );
 
 /**
  * Remove the coupon code query string parameter from the WooCommerce AJAX
