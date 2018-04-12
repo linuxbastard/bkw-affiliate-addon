@@ -181,13 +181,3 @@ function affgb_clean_ajax_endpoint( $endpoint ) {
 	return str_replace( $token, '%%endpoint%%', $endpoint );
 }
 add_filter( 'woocommerce_ajax_get_endpoint', 'affgb_clean_ajax_endpoint' );
-
-/**
- * Adds a note on user account that user has already availed
- * of discount.
- */
-
-function affgb_woocommerce_payment_complete( $order_id ) {
-	error_log( "Payment has been received for order $order_id" );
-}
-add_action( 'woocommerce_payment_complete', 'affgb_woocommerce_payment_complete', 10, 1 );
