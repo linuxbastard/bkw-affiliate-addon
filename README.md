@@ -1,4 +1,4 @@
-# Affiliate Add-on for The Goodboy
+# Affiliate Add-on 
 
 Create coupons for each new registered user and automatically apply coupon codes for referral links from that user.
 
@@ -13,7 +13,7 @@ __License:__ [GPL-2.0+](https://www.gnu.org/licenses/gpl-2.0.html)
 
 ## Installation ##
 
-1. Download the [latest release](https://bitbucket.org/linuxbastard/affiliate-addon-goodboy).
+1. Download the [latest release](https://github.com/linuxbastard/bkw-affiliate-addon).
 2. Go to the _Plugins &rarr; Add New_ screen in your WordPress admin panel and click the __Upload__ button at the top next to the "Add Plugins" title.
 3. Upload the zipped archive.
 4. Click the __Activate Plugin__ link after installation completes.
